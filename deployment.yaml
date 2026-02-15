@@ -1,0 +1,23 @@
+# first version copied from
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kirito-go
+  labels:
+    app: kirito-go
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kirito-go
+  template:
+    metadata:
+      labels:
+        app: kirito-go
+    spec:
+      containers:
+        - name: kirito-go
+          image: imanbin/kirito:v1
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,42 @@
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+  APP_NAME: $CI_PROJECT_NAME
+  VERSION: 1
+  DOCKER_IMAGE: $DOCKER_REGISTRY/$APP_NAME:$VERSION
+
+services:
+  - name: docker:dind
+    command:
+      - "--tls=false"
+
+stages:
+  - build
+  - deploy
+
+build-image:
+  stage: build
+  image: docker:latest
+  tags:
+    - kirito
+  before_script:
+    - echo $DOCKER_PASSWORD | docker login $DOCKER_REGISTRY -u $DOCKER_USERNAME --password-stdin
+  script:
+    - docker build -t $DOCKER_IMAGE .
+    - docker push $DOCKER_IMAGE
+    - echo $DOCKER_IMAGE
+
+deploy-to-k8s:
+  stage: deploy
+  image: 
+    name: bitnami/kubectl:latest
+    entrypoint: [""] # Override the entrypoint to run standard shell commands
+  script:
+  - export KUBECONFIG=$PROD_KUBECONFIG
+  - echo "Deploying to Kubernetes cluster"
+    - kubectl version --client # Check connectivity
+    - kubectl get nodes # Example command to verify connection and permissions
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
+
