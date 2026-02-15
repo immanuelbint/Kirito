@@ -1,0 +1,11 @@
+1. One day, your “Kirito” becomes a high traffic service that runs on production that is accessed publicly by the end user. But sometimes the crashlytics says your endpoint returns a 5xx error. What is your way of figuring out the root cause?
+First I check the visualization tools like grafana, elasticsearch etc to have quick look at traffic, usage, latency, error logs, if no error was found then I’ll go check inside the server / vm to get detailed info about cpu, memory usage using top / htop command, if the PID of service that caused was found, I’ll go check the logs of application or database that cause the spike, from the logs we can now know what makes the Kirito high traffic, then I’ll tune the configuration and also document the solution, then I’ll update with stakeholder to make sure the issue won’t repeat in the near future.
+
+2. Once you found the root cause, what is your resolution to resolve the issue so it won’t happen in the future?
+First I’ll document the solution, then I’ll communicate to the stakeholder, if the stakeholder are agree, then I’ll gradually add the fixes to the code / infrastructure and tested it first in development / testing environment, and if there’s blue green deployment, I’ll deploy on the green to make sure the issue are fixed, if it’s fixed I’ll deploy to the production env.
+
+3. Mention and describe all tools that you use to help to trace and resolve the issue
+Here’s the tools I’m usually used to trace the root cause of errors
+Monitoring : Grafana, elasticsearch, docker stat, k9s
+Log analysis : tail, grep, docker logs
+System inspection : df, top / htop
