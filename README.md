@@ -238,3 +238,9 @@ Alpine image running the binary of compiled project
     ```
 
 4. I've include the `.gitlab-ci.yaml` file and the kubeconfig dummy in this repostory.
+
+
+## Reference
+- [Official Gin Golang docs](https://gin-gonic.com/en/docs/)
+- [Official docker guide to push images](https://docs.docker.com/get-started/introduction/build-and-push-first-image/)
+- [Official docs about deployment in K8s](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
